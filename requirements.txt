@@ -2,7 +2,8 @@ pandas
 numpy
 scipy
 matplotlib
-opencv-python
+opencv-python==4.8.1.78
+opencv-contrib-python==4.8.1.78
 pydicom
 streamlit
 sqlalchemy
