@@ -14,6 +14,12 @@ def load_image(path):
     img = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
     return img
 
+df = pd.read_csv("")
+df.head()
+df.info()
+df.isnull.sum()
+import matplotlib as plt
+import ploty.express as px
 
 def enhance_contrast(img):
     """
