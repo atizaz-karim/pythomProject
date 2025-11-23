@@ -159,28 +159,53 @@ elif section == "Spectrum Analysis":
 # =========================================================
 # 📌 SECTION 4 — IMAGE PROCESSING
 # =========================================================
+# =========================================================
+# 📌 SECTION 4 — IMAGE PROCESSING
+# =========================================================
 elif section == "Image Processing":
     st.header("Medical Image Processing")
+    st.write("Upload a medical image and apply processing steps.")
 
     img_file = st.file_uploader("Upload medical image", type=["png", "jpg", "jpeg"])
 
     if img_file:
         import tempfile
+        import cv2
+        import numpy as np
+
+        # Save uploaded file to temporary location
         tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
         tmp.write(img_file.getvalue())
         tmp.flush()
 
-        # Load image
-        img = cv2.imdecode(np.fromfile(tmp.name, dtype=np.uint8), cv2.IMREAD_COLOR)
+        # Load image with OpenCV
+        img = cv2.imread(tmp.name)
+        if img is None:
+            st.error("Failed to load image. Please upload a valid image file.")
+        else:
+            # Convert BGR to RGB for Streamlit
+            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        col1, col2 = st.columns(2)
-        with col1:
-            st.image(img, caption="Original", use_column_width=True)
+            # Display original image
+            st.subheader("Original Image")
+            st.image(img_rgb, use_column_width=True)
 
-        # Grayscale
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        with col2:
-            st.image(gray, caption="Grayscale", use_column_width=True)
+            # -----------------------------
+            # Enhanced Contrast (CLAHE)
+            # -----------------------------
+            st.subheader("Enhanced Contrast")
+            img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+            img_enhanced = clahe.apply(img_gray)
+            st.image(img_enhanced, use_column_width=True, clamp=True)
+
+            # -----------------------------
+            # Edge Detection (Canny)
+            # -----------------------------
+            st.subheader("Edge Detection")
+            edges = cv2.Canny(img_enhanced, 50, 150)
+            st.image(edges, use_column_width=True, clamp=True)
+
 
 
 # =========================================================
