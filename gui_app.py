@@ -155,10 +155,6 @@ elif section == "Spectrum Analysis":
         ax.set_ylabel("Amplitude")
         st.pyplot(fig)
 
-
-# =========================================================
-# 📌 SECTION 4 — IMAGE PROCESSING
-# =========================================================
 # =========================================================
 # 📌 SECTION 4 — IMAGE PROCESSING
 # =========================================================
@@ -173,15 +169,15 @@ elif section == "Image Processing":
         import cv2
         import numpy as np
 
-        # Save uploaded file to temporary location
+        # Save uploaded file temporarily
         tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
         tmp.write(img_file.getvalue())
         tmp.flush()
 
-        # Load image with OpenCV
+        # Load image using OpenCV (headless)
         img = cv2.imread(tmp.name)
         if img is None:
-            st.error("Failed to load image. Please upload a valid image files.")
+            st.error("Failed to load image.")
         else:
             # Convert BGR to RGB for Streamlit
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -190,21 +186,18 @@ elif section == "Image Processing":
             st.subheader("Original Image")
             st.image(img_rgb, use_column_width=True)
 
-            # -----------------------------
-            # Enhanced Contrast (CLAHE)
-            # -----------------------------
+            # Enhanced Contrast
             st.subheader("Enhanced Contrast")
             img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
             img_enhanced = clahe.apply(img_gray)
             st.image(img_enhanced, use_column_width=True, clamp=True)
 
-            # -----------------------------
-            # Edge Detection (Canny)
-            # -----------------------------
+            # Edge Detection
             st.subheader("Edge Detection")
             edges = cv2.Canny(img_enhanced, 50, 150)
             st.image(edges, use_column_width=True, clamp=True)
+
 
 
 
