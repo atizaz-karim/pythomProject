@@ -174,26 +174,26 @@ elif section == "Image Processing":
         tmp.write(img_file.getvalue())
         tmp.flush()
 
-        # Load image using OpenCV (headless)
+        # Load image with OpenCV headless
         img = cv2.imread(tmp.name)
         if img is None:
             st.error("Failed to load image.")
         else:
-            # Convert BGR to RGB for Streamlit
+            # Convert BGR → RGB
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-            # Display original image
+            # Display original
             st.subheader("Original Image")
             st.image(img_rgb, use_column_width=True)
 
-            # Enhanced Contrast
+            # Enhanced contrast (CLAHE)
             st.subheader("Enhanced Contrast")
             img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
             img_enhanced = clahe.apply(img_gray)
             st.image(img_enhanced, use_column_width=True, clamp=True)
 
-            # Edge Detection
+            # Edge detection (Canny)
             st.subheader("Edge Detection")
             edges = cv2.Canny(img_enhanced, 50, 150)
             st.image(edges, use_column_width=True, clamp=True)
