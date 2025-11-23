@@ -181,7 +181,7 @@ elif section == "Image Processing":
         # Load image with OpenCV
         img = cv2.imread(tmp.name)
         if img is None:
-            st.error("Failed to load image. Please upload a valid image file.")
+            st.error("Failed to load image. Please upload a valid image files.")
         else:
             # Convert BGR to RGB for Streamlit
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
