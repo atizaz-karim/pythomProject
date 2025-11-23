@@ -7,3 +7,4 @@ opencv-contrib-python==4.8.1.78
 pydicom
 streamlit
 sqlalchemy
+seaborn
